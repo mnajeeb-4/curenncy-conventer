@@ -26,7 +26,7 @@ def get_exchange_rates(api_key, from_currency):
 # --- Streamlit Web Interface Setup ---
 st.set_page_config(page_title="Live Currency Converter", page_icon="🌐", layout="centered")
 
-# --- CUSTOM LIQUID GLASS CSS INJECTION ---
+# --- CUSTOM LIQUID GLASS CSS INJECTION WITH HIGH CONTRAST INPUT FIELDS ---
 st.markdown("""
     <style>
     /* 1. Liquid moving gradient background for the entire app */
@@ -49,21 +49,31 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    /* 3. Glassmorphism effect for Input Fields */
-    .stTextInput input, .stNumberInput input {
-        background: rgba(255, 255, 255, 0.07) !important;
-        backdrop-filter: blur(10px) !important;
-        -webkit-backdrop-filter: blur(10px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    /* 3. HIGH VISIBILITY Glassmorphism effect for Input Fields */
+    /* Target inputs, wrappers, and active text blocks */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="input"] input {
+        background-color: rgba(15, 23, 42, 0.6) !important; /* Solid dark tint for contrast */
+        backdrop-filter: blur(15px) !important;
+        -webkit-backdrop-filter: blur(15px) !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important; /* Thick white border */
         border-radius: 12px !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+        color: #ffffff !important; /* Pure white input text color */
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
+        -webkit-text-fill-color: #ffffff !important; /* Fixes safari/chrome visibility overrides */
     }
     
-    /* Input hover/focus states */
-    .stTextInput input:focus, .stNumberInput input:focus {
-        border: 1px solid rgba(255, 255, 255, 0.4) !important;
-        box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1) !important;
+    /* Input hover and active focus states */
+    .stTextInput input:focus, .stNumberInput input:focus, div[data-baseweb="input"]:focus-within {
+        border: 2px solid #a855f7 !important; /* Bright purple border when clicking */
+        box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4) !important;
+    }
+
+    /* Fix labels color above the inputs */
+    div[data-testid="stWidgetLabel"] p {
+        color: #e2e8f0 !important;
+        font-weight: 600 !important;
     }
 
     /* 4. Sleek style for the Convert Button */
@@ -77,6 +87,7 @@ st.markdown("""
         letter-spacing: 0.5px;
         transition: all 0.3s ease !important;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
+        margin-top: 10px;
     }
     
     div.stButton > button:hover {
@@ -98,10 +109,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 # UI Layout Headers
 st.title("🌐 Live Currency Converter")
-st.write("Convert amounts instantly using dynamic global exchange rates inside a liquid glass workspace.")
+st.write("Convert amounts instantly using dynamic global exchange rates inside a high-contrast workspace.")
 st.markdown("<br>", unsafe_allow_html=True)
 
 # API key from assignment
